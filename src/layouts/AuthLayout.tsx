@@ -5,10 +5,10 @@ import useCheckAuth from "@/modules/auth/services/useCheckAuth"
 import { UserRole } from "@/modules/users/interfaces/user.interface"
 import { AuthStatus, useUserStore } from "@/store/useUserStore"
 import { useRouter } from "next/router"
-import { ReactElement, useEffect } from "react"
+import { ReactNode, useEffect } from "react"
 
 interface AuthLayoutProps extends PageProps {
-  children: ReactElement
+  children: ReactNode
 }
 
 export default function AuthLayout({ children, roles }: AuthLayoutProps) {
@@ -18,9 +18,9 @@ export default function AuthLayout({ children, roles }: AuthLayoutProps) {
 
   useEffect(() => {
     checkAuth()
-  }, [])
+  }, [checkAuth])
 
-  if (!roles.length) return children
+  if (!roles?.length) return children
   if (authStatus === AuthStatus.LOADING) return <LoadingScreen />
   if (roles.includes(UserRole.GUEST)) {
     if (authStatus === AuthStatus.SUCCESS) {

@@ -1,5 +1,6 @@
 import ForbiddenScreen from "@/components/common/ForbiddenScreen"
 import { PageProps } from "@/interfaces/page-props.interface"
+import HomeLayout from "@/layouts/home"
 import { GetStaticPropsResult } from "next"
 
 export function getStaticProps(): GetStaticPropsResult<PageProps> {
@@ -13,8 +14,8 @@ export function getStaticProps(): GetStaticPropsResult<PageProps> {
 
 export default function Home() {
   return (
-    <div>
+    <HomeLayout>
       <ForbiddenScreen />
-    </div>
+    </HomeLayout>
   )
 }
