@@ -17,8 +17,8 @@ export function getStaticProps(): GetStaticPropsResult<PageProps> {
   }
 }
 
-export default function SignIn() {
-  const { methods, handleSubmit } = useFormSignIn()
+export default function SignInPage() {
+  const { methods, handleSubmit, isLoading } = useFormSignIn()
 
   return (
     <div
@@ -27,11 +27,14 @@ export default function SignIn() {
         "bg-[url('https://res.cloudinary.com/nnee/image/upload/v1681557963/eshop/general/4882619_fot9jy.jpg')]"
       )}
     >
-      <div className="max-w-lg w-full px-10 py-8 bg-white border rounded-3xl shadow-xl">
+      <div className="max-w-lg w-full px-10 py-8 bg-white border rounded-xl shadow-xl">
         <div className="text-center">
           <div className="text-3xl font-bold">Đăng nhập</div>
           <div className="mt-2">
-            Chưa có tài khoản? <Link href="/auth/sign-up">Tạo tài khoản</Link>
+            Chưa có tài khoản?{" "}
+            <Link href="/auth/sign-up" className="link">
+              Tạo tài khoản
+            </Link>
           </div>
         </div>
         <FormProvider {...methods}>
@@ -44,9 +47,11 @@ export default function SignIn() {
               label="Mật khẩu"
             />
             <div className="text-right">
-              <Link href="/auth/forgot-password">Quên mật khẩu</Link>
+              <Link href="/auth/forgot-password" className="link">
+                Quên mật khẩu
+              </Link>
             </div>
-            <Button colorScheme="primary" fullWidth>
+            <Button loading={isLoading} className="w-full btn-primary">
               Đăng nhập
             </Button>
           </form>

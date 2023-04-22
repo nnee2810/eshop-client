@@ -17,7 +17,7 @@ export function getStaticProps(): GetStaticPropsResult<PageProps> {
   }
 }
 
-export default function SignUp() {
+export default function SignUpPage() {
   const { methods, handleSubmit, isLoading } = useFormSignUp()
 
   return (
@@ -31,7 +31,10 @@ export default function SignUp() {
         <div className="text-center">
           <div className="text-3xl font-bold">Tạo tài khoản</div>
           <div className="mt-2">
-            Đã có tài khoản? <Link href="/auth/sign-in">Đăng nhập</Link>
+            Đã có tài khoản?{" "}
+            <Link href="/auth/sign-in" className="link">
+              Đăng nhập
+            </Link>
           </div>
         </div>
         <FormProvider {...methods}>
@@ -65,7 +68,7 @@ export default function SignUp() {
               name="confirmPassword"
               label="Xác nhận mật khẩu"
             />
-            <Button colorScheme="primary" fullWidth isloading={isLoading}>
+            <Button loading={isLoading} className="w-full btn-primary">
               Tạo
             </Button>
           </form>

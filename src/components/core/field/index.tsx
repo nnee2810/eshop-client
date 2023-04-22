@@ -1,5 +1,8 @@
 import { getFieldError } from "@/helpers/getFieldError"
 import { Controller, useFormContext } from "react-hook-form"
+import Checkbox, { CheckboxProps } from "./Checkbox"
+import CheckboxGroup, { CheckboxGroupProps } from "./CheckboxGroup"
+import FieldLabel from "./FieldLabel"
 import Select, { SelectProps } from "./Select"
 import TextInput, { TextInputProps } from "./TextInput"
 
@@ -8,7 +11,13 @@ interface FieldBaseProps {
   label?: string
 }
 
-type FieldProps = (TextInputProps | SelectProps) & FieldBaseProps
+type FieldProps = (
+  | TextInputProps
+  | SelectProps
+  | CheckboxProps
+  | CheckboxGroupProps
+) &
+  FieldBaseProps
 
 export default function Field(props: FieldProps) {
   const { variant, name, label } = props
@@ -19,9 +28,7 @@ export default function Field(props: FieldProps) {
 
   return (
     <div>
-      {label && (
-        <label className="text-gray-600 text-sm font-medium">{label}</label>
-      )}
+      {variant !== "checkbox" && <FieldLabel>{label}</FieldLabel>}
       <Controller
         control={control}
         name={name}
@@ -29,16 +36,30 @@ export default function Field(props: FieldProps) {
           <>
             {variant === "text" && (
               <TextInput
-                isInvalid={!!getFieldError(errors, props.name)}
-                {...props}
                 {...restField}
+                {...props}
+                isInvalid={!!getFieldError(errors, props.name)}
               />
             )}
             {variant === "select" && (
               <Select
-                isInvalid={!!getFieldError(errors, props.name)}
-                {...props}
                 {...restField}
+                {...props}
+                isInvalid={!!getFieldError(errors, props.name)}
+              />
+            )}
+            {variant === "checkbox" && (
+              <Checkbox
+                {...restField}
+                {...props}
+                isInvalid={!!getFieldError(errors, props.name)}
+              />
+            )}
+            {variant === "checkbox-group" && (
+              <CheckboxGroup
+                {...restField}
+                {...props}
+                isInvalid={!!getFieldError(errors, props.name)}
               />
             )}
           </>

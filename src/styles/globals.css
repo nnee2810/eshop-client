@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "swiper/css";
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -18,14 +19,17 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: #f1f5f9;
 }
 
-img {
-  object-fit: cover;
-}
+@layer components {
+  .btn-white {
+    @apply bg-white text-black border-none hover:bg-gray-100;
+  }
+  .link {
+    @apply font-medium text-blue-500;
+  }
 
-a {
-  font-weight: 500;
-  color: rgb(59 130 246);
+  .collapse > input[type="checkbox"]:checked ~ .collapse-content {
+    @apply px-4 py-2 border rounded-lg;
+  }
 }

@@ -11,7 +11,9 @@ export default function App({ Component, pageProps }: AppProps<PageProps>) {
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
-        <title>Eshop {pageProps.title ? `| ${pageProps.title}` : ""}</title>
+        <title>
+          {pageProps.title ? `Eshop | ${pageProps.title}` : "Eshop"}
+        </title>
       </Head>
       <AuthLayout {...pageProps}>
         <Component {...pageProps} />

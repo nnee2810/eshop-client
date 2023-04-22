@@ -1,34 +1,29 @@
 import clsx from "clsx"
-import { SelectHTMLAttributes } from "react"
+import { ControllerRenderProps } from "react-hook-form"
 
-interface SelectOption {
+export interface SelectOption<T = unknown> {
   label: string
-  value: number | string
+  value: T
 }
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps<T> extends Partial<ControllerRenderProps> {
   variant?: "select"
   isInvalid?: boolean
-  options: SelectOption[]
+  options: SelectOption<T>[]
 }
 
-export default function Select({
+export default function Select<T extends number | string>({
   variant,
   options,
   isInvalid,
-  className,
   ...props
-}: SelectProps) {
+}: SelectProps<T>) {
   return (
     <select
       {...props}
-      className={clsx(
-        "select select-bordered w-full",
-        {
-          "select-error": isInvalid,
-        },
-        className
-      )}
+      className={clsx("select select-bordered w-full", {
+        "select-error": isInvalid,
+      })}
     >
       <option value="">Chọn...</option>
       {options.map((item) => (

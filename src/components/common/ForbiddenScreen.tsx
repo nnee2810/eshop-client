@@ -7,9 +7,7 @@ export default function ForbiddenScreen() {
       <div className="text-4xl font-bold text-blue">403</div>
       <div>Bạn không có quyền truy cập vào trang này!</div>
       <Link href="/">
-        <Button className="mt-4" outline>
-          Trang chủ
-        </Button>
+        <Button className="mt-4">Trang chủ</Button>
       </Link>
     </div>
   )

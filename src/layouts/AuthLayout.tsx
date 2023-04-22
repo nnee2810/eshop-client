@@ -5,10 +5,10 @@ import useCheckAuth from "@/modules/auth/services/useCheckAuth"
 import { UserRole } from "@/modules/users/interfaces/user.interface"
 import { AuthStatus, useUserStore } from "@/store/useUserStore"
 import { useRouter } from "next/router"
-import { ReactNode, useEffect } from "react"
+import { ReactElement, useEffect } from "react"
 
 interface AuthLayoutProps extends PageProps {
-  children: ReactNode
+  children: ReactElement
 }
 
 export default function AuthLayout({ children, roles }: AuthLayoutProps) {
