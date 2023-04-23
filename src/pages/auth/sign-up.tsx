@@ -2,7 +2,8 @@ import Button from "@/components/core/Button"
 import Field from "@/components/core/field"
 import { PageProps } from "@/interfaces/page-props.interface"
 import useFormSignUp from "@/modules/auth/hooks/useFormSignUp"
-import { UserGender, UserRole } from "@/modules/users/interfaces/user.interface"
+import { genderOptions } from "@/modules/user/constant"
+import { UserRole } from "@/modules/user/interfaces/user.interface"
 import clsx from "clsx"
 import { GetStaticPropsResult } from "next"
 import Link from "next/link"
@@ -44,16 +45,7 @@ export default function SignUpPage() {
               variant="select"
               name="gender"
               label="Giới tính"
-              options={[
-                {
-                  label: "Nam",
-                  value: UserGender.MALE,
-                },
-                {
-                  label: "Nữ",
-                  value: UserGender.FEMALE,
-                },
-              ]}
+              options={genderOptions}
             />
             <Field variant="text" name="email" label="Email" />
             <Field

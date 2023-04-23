@@ -1,11 +1,11 @@
 import { Regex } from "@/configs/constants"
-import { validationMessage } from "@/helpers/validationMessage"
+import { validationMessages } from "@/helpers/validationMessages"
 import { useUserStore } from "@/store/useUserStore"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { joiResolver } from "@hookform/resolvers/joi"
 import { isEmail } from "class-validator"
+import Joi from "joi"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import * as yup from "yup"
 import useSignIn from "../services/useSignIn"
 
 interface FormValues {
@@ -13,21 +13,23 @@ interface FormValues {
   password: string
 }
 
-const formSchema: yup.ObjectSchema<FormValues> = yup.object({
-  email: yup
-    .string()
+const formSchema = Joi.object<FormValues, true>({
+  email: Joi.string()
     .label("Email")
-    .required(validationMessage.required)
-    .test({
-      test: (value) => isEmail(value),
-      message: validationMessage.invalid,
-    }),
-  password: yup
-    .string()
+    .required()
+    .trim()
+    .custom((value, helper) =>
+      isEmail(value) ? value : helper.error("any.invalid")
+    )
+    .messages(validationMessages),
+  password: Joi.string()
     .label("Mật khẩu")
-    .required(validationMessage.required)
-    .matches(Regex.PASSWORD, {
-      message: validationMessage.password,
+    .required()
+    .regex(Regex.PASSWORD)
+    .messages({
+      ...validationMessages,
+      "string.pattern.base":
+        "{{#label}} phải chứa ít nhất 8 kí tự, gồm chữ in hoa, chữ thường và số",
     }),
 })
 
@@ -38,7 +40,7 @@ export default function useFormSignIn() {
       email: "",
       password: "",
     },
-    resolver: yupResolver(formSchema),
+    resolver: joiResolver(formSchema),
   })
   const { setUser } = useUserStore()
 

@@ -2,18 +2,18 @@ import { useCallback, useEffect, useState } from "react"
 import { ControllerRenderProps } from "react-hook-form"
 import { SelectOption } from "./Select"
 
-export interface CheckboxGroupProps<T> extends Partial<ControllerRenderProps> {
+export interface CheckboxGroupProps extends Partial<ControllerRenderProps> {
   variant?: "checkbox-group"
   isInvalid?: boolean
-  options: SelectOption<T>[]
+  options: SelectOption[]
 }
 
-export default function CheckboxGroup<T extends number | string>({
+export default function CheckboxGroup({
   variant,
   isInvalid,
   options,
   ...props
-}: CheckboxGroupProps<T>) {
+}: CheckboxGroupProps) {
   const [selected, setSelected] = useState(
     (props.value as (number | string)[]) || []
   )

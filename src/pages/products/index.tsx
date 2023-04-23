@@ -2,16 +2,17 @@ import ResponsiveBox from "@/components/common/ResponsiveBox"
 import Breadcrumbs from "@/components/core/Breadcrumbs"
 import { PageProps } from "@/interfaces/page-props.interface"
 import HomeLayout from "@/layouts/home"
-import ProductFilter from "@/modules/products/components/ProductFilter"
+import FormProductFilter from "@/modules/products/components/FormProductFilter"
 import ProductFilterTags from "@/modules/products/components/ProductFilterTags"
 import ProductList from "@/modules/products/components/ProductList"
+import { UserRole } from "@/modules/user/interfaces/user.interface"
 import { GetStaticPropsResult } from "next"
 
 export function getStaticProps(): GetStaticPropsResult<PageProps> {
   return {
     props: {
       title: "Sản phẩm",
-      roles: [],
+      roles: [UserRole.USER, UserRole.ADMIN],
     },
   }
 }
@@ -33,7 +34,7 @@ export default function ProductListPage() {
           ]}
         />
         <div className="grid md:grid-cols-[300px_auto] items-start gap-6">
-          <ProductFilter />
+          <FormProductFilter />
           <div className="space-y-6">
             <ProductFilterTags />
             <ProductList />

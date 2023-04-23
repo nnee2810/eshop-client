@@ -1,12 +1,12 @@
 import { Regex } from "@/configs/constants"
-import { validationMessage } from "@/helpers/validationMessage"
-import { UserGender } from "@/modules/users/interfaces/user.interface"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { validationMessages } from "@/helpers/validationMessages"
+import { genderOptions } from "@/modules/user/constant"
+import { joiResolver } from "@hookform/resolvers/joi"
 import { isEmail } from "class-validator"
+import Joi from "joi"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
-import toast from "react-hot-toast"
-import * as yup from "yup"
+import { toast } from "react-hot-toast"
 import useSignUp from "../services/useSignUp"
 
 interface FormValues {
@@ -17,33 +17,42 @@ interface FormValues {
   gender: string
 }
 
-const formSchema: yup.ObjectSchema<FormValues> = yup.object({
-  email: yup
-    .string()
-    .label("Email")
-    .required(validationMessage.required)
-    .test({
-      test: (value) => isEmail(value),
-      message: validationMessage.invalid,
-    }),
-  password: yup
-    .string()
-    .label("Mật khẩu")
-    .required(validationMessage.required)
-    .matches(Regex.PASSWORD, {
-      message: validationMessage.password,
-    }),
-  confirmPassword: yup
-    .string()
-    .label("Xác nhận mật khẩu")
-    .required(validationMessage.required)
-    .oneOf([yup.ref("password")], "Không khớp mật khẩu"),
-  name: yup.string().label("Họ tên").required(validationMessage.required),
-  gender: yup
-    .string()
+const formSchema = Joi.object<FormValues, true>({
+  name: Joi.string()
+    .label("Họ tên")
+    .required()
+    .trim()
+    .messages(validationMessages),
+  gender: Joi.string()
     .label("Giới tính")
-    .required(validationMessage.required)
-    .oneOf(Object.keys(UserGender)),
+    .required()
+    .valid(...genderOptions.map((item) => item.value))
+    .messages(validationMessages),
+  email: Joi.string()
+    .label("Email")
+    .required()
+    .trim()
+    .custom((value, helper) =>
+      isEmail(value) ? value : helper.error("any.invalid")
+    )
+    .messages(validationMessages),
+  password: Joi.string()
+    .label("Mật khẩu")
+    .required()
+    .regex(Regex.PASSWORD)
+    .messages({
+      ...validationMessages,
+      "string.pattern.base":
+        "{{#label}} phải chứa ít nhất 8 kí tự, gồm chữ in hoa, chữ thường và số",
+    }),
+  confirmPassword: Joi.string()
+    .label("Nhập lại mật khẩu")
+    .required()
+    .valid(Joi.ref("password"))
+    .messages({
+      ...validationMessages,
+      "any.only": '{{#label}} phải khớp với "Mật khẩu"',
+    }),
 })
 
 export default function useFormSignUp() {
@@ -51,13 +60,13 @@ export default function useFormSignUp() {
   const { mutate, isLoading } = useSignUp()
   const methods = useForm<FormValues>({
     defaultValues: {
+      name: "",
+      gender: "",
       email: "",
       password: "",
       confirmPassword: "",
-      name: "",
-      gender: "",
     },
-    resolver: yupResolver(formSchema),
+    resolver: joiResolver(formSchema),
   })
 
   const handleSubmit = methods.handleSubmit(

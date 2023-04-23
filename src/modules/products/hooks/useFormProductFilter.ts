@@ -1,14 +1,34 @@
+import { validationMessages } from "@/helpers/validationMessages"
 import { ProductsQuery, useProductsStore } from "@/store/useProductsStore"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { joiResolver } from "@hookform/resolvers/joi"
+import Joi from "joi"
 import { useForm } from "react-hook-form"
-import * as yup from "yup"
+import {
+  brandOptions,
+  categoryOptions,
+  colorOptions,
+  orderByOptions,
+} from "../constant"
 
-const formSchema: yup.ObjectSchema<ProductsQuery> = yup.object({
-  name: yup.string(),
-  orderBy: yup.string(),
-  category: yup.array().of(yup.string().required()),
-  brand: yup.array().of(yup.string().required()),
-  color: yup.array().of(yup.string().required()),
+const formSchema = Joi.object({
+  name: Joi.string()
+    .label("Tên sản phẩm")
+    .allow("")
+    .messages(validationMessages),
+  orderBy: Joi.string()
+    .label("Sắp xếp theo")
+    .allow("")
+    .valid(...orderByOptions.map((item) => item.value)),
+  category: Joi.array()
+    .label("Danh mục")
+
+    .valid(...categoryOptions.map((item) => item.value)),
+  brand: Joi.array()
+    .label("Nhãn hiệu")
+    .valid(...brandOptions.map((item) => item.value)),
+  color: Joi.array()
+    .label("Màu sắc")
+    .valid(...colorOptions.map((item) => item.value)),
 })
 
 export default function useFormProductFilter() {
@@ -21,7 +41,7 @@ export default function useFormProductFilter() {
       brand: [],
       color: [],
     },
-    resolver: yupResolver(formSchema),
+    resolver: joiResolver(formSchema),
   })
 
   const handleSubmit = methods.handleSubmit((values) => {

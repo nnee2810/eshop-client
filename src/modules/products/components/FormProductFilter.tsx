@@ -7,17 +7,17 @@ import {
   categoryOptions,
   colorOptions,
   orderByOptions,
-} from "../constants"
+} from "../constant"
 import useFormProductFilter from "../hooks/useFormProductFilter"
 
-export default function ProductFilter() {
+export default function FormProductFilter() {
   const { methods, handleSubmit } = useFormProductFilter()
 
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit}
-        className="px-4 py-2 border rounded-lg space-y-2"
+        className="sticky top-10 p-4 border rounded-lg shadow-lg space-y-2"
       >
         <Field variant="text" name="name" label="Tìm kiếm" />
         <Field

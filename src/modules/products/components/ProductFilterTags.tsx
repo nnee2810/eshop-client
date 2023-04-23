@@ -6,7 +6,7 @@ import {
   categoryOptions,
   colorOptions,
   orderByOptions,
-} from "../constants"
+} from "../constant"
 
 export default function ProductFilterTags() {
   const { query, setQuery, clearQuery } = useProductsStore()

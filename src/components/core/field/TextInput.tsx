@@ -1,7 +1,7 @@
 import clsx from "clsx"
-import { ControllerRenderProps } from "react-hook-form"
+import { InputHTMLAttributes } from "react"
 
-export interface TextInputProps extends Partial<ControllerRenderProps> {
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   variant?: "text"
   isInvalid?: boolean
 }
@@ -9,12 +9,13 @@ export interface TextInputProps extends Partial<ControllerRenderProps> {
 export default function TextInput({
   variant,
   isInvalid,
+  className,
   ...props
 }: TextInputProps) {
   return (
     <input
       {...props}
-      className={clsx("input input-bordered w-full", {
+      className={clsx(className, "input input-bordered w-full", {
         "input-error": isInvalid,
       })}
     />

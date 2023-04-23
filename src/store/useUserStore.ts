@@ -1,4 +1,4 @@
-import { User } from "@/modules/users/interfaces/user.interface"
+import { User } from "@/modules/user/interfaces/user.interface"
 import { create } from "zustand"
 
 export enum AuthStatus {

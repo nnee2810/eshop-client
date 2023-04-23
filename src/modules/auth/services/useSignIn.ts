@@ -1,5 +1,5 @@
 import { api } from "@/configs/api"
-import { User } from "@/modules/users/interfaces/user.interface"
+import { User } from "@/modules/user/interfaces/user.interface"
 import { useMutation } from "@tanstack/react-query"
 import { SignInDto } from "../dto/sign-in.dto"
 
