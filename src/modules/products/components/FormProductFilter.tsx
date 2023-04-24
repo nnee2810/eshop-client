@@ -26,17 +26,17 @@ export default function FormProductFilter() {
           label="Sắp xếp theo"
           options={orderByOptions}
         />
-        <Collapse label="Phân loại">
+        <Collapse label="Danh mục" arrow>
           <Field
             variant="checkbox-group"
             name="category"
             options={categoryOptions}
           />
         </Collapse>
-        <Collapse label="Nhãn hiệu">
+        <Collapse label="Nhãn hiệu" arrow>
           <Field variant="checkbox-group" name="brand" options={brandOptions} />
         </Collapse>
-        <Collapse label="Màu sắc">
+        <Collapse label="Màu sắc" arrow>
           <Field variant="checkbox-group" name="color" options={colorOptions} />
         </Collapse>
         <Button className="w-full">Lọc</Button>

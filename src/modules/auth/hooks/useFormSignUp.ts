@@ -1,6 +1,6 @@
 import { Regex } from "@/configs/constants"
 import { validationMessages } from "@/helpers/validationMessages"
-import { genderOptions } from "@/modules/user/constant"
+import { UserGender } from "@/modules/user/interfaces/user.interface"
 import { joiResolver } from "@hookform/resolvers/joi"
 import { isEmail } from "class-validator"
 import Joi from "joi"
@@ -26,7 +26,7 @@ const formSchema = Joi.object<FormValues, true>({
   gender: Joi.string()
     .label("Giới tính")
     .required()
-    .valid(...genderOptions.map((item) => item.value))
+    .valid(...Object.keys(UserGender))
     .messages(validationMessages),
   email: Joi.string()
     .label("Email")

@@ -1,5 +1,7 @@
 import ResponsiveBox from "@/components/common/ResponsiveBox"
 import Vortex from "@/components/common/Vortex"
+import Dropdown from "@/components/core/Dropdown"
+import Menu, { MenuItem } from "@/components/core/Menu"
 import { useUserStore } from "@/store/useUserStore"
 import clsx from "clsx"
 import Link from "next/link"
@@ -39,7 +41,7 @@ const navItems: NavItem[] = [
 
 export default function Header() {
   const router = useRouter()
-  const { user } = useUserStore()
+  const { user, clearUser } = useUserStore()
   const [visible, setVisible] = useState(true)
   const lastScrollTop = useRef(0)
 
@@ -103,9 +105,20 @@ export default function Header() {
           <div className="place-content-end flex gap-4 text-xl">
             <AiOutlineSearch />
             <FiShoppingBag />
-            <Link href={user ? "/user/profile" : "/auth/sign-in"}>
-              <AiOutlineUser />
-            </Link>
+            {user ? (
+              <Dropdown label={<AiOutlineUser />} placement="bottom-end">
+                <Menu>
+                  <MenuItem onClick={() => router.push("/user/profile")}>
+                    Hồ sơ người dùng
+                  </MenuItem>
+                  <MenuItem onClick={clearUser}>Đăng xuất</MenuItem>
+                </Menu>
+              </Dropdown>
+            ) : (
+              <Link href="/auth/sign-in">
+                <AiOutlineUser />
+              </Link>
+            )}
           </div>
         </div>
       </ResponsiveBox>

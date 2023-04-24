@@ -12,3 +12,8 @@ export const validationMessages = {
   "string.trim": "{{#label}} không được chứa khoảng trắng ở đầu và cuối",
   "string.uppercase": "{{#label}} chỉ chứa các chữ in hoa",
 }
+
+export const validationPasswordMessages = {
+  "string.pattern.base":
+    "{{#label}} phải chứa ít nhất 8 kí tự, gồm chữ in hoa, chữ thường và số",
+}

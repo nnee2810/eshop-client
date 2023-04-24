@@ -21,14 +21,13 @@ const formSchema = Joi.object({
     .valid(...orderByOptions.map((item) => item.value)),
   category: Joi.array()
     .label("Danh mục")
-
-    .valid(...categoryOptions.map((item) => item.value)),
+    .items(Joi.string().valid(...categoryOptions.map((item) => item.value))),
   brand: Joi.array()
     .label("Nhãn hiệu")
-    .valid(...brandOptions.map((item) => item.value)),
+    .items(Joi.string().valid(...brandOptions.map((item) => item.value))),
   color: Joi.array()
     .label("Màu sắc")
-    .valid(...colorOptions.map((item) => item.value)),
+    .items(Joi.string().valid(...colorOptions.map((item) => item.value))),
 })
 
 export default function useFormProductFilter() {
