@@ -1,6 +1,8 @@
 import { validationMessages } from "@/helpers/validationMessages"
+import { useUserStore } from "@/store/useUserStore"
 import { joiResolver } from "@hookform/resolvers/joi"
 import Joi from "joi"
+import _ from "lodash"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { UserGender } from "../interfaces/user.interface"
@@ -29,6 +31,8 @@ const formSchema = Joi.object<FormValues, true>({
 })
 
 export default function useFormUpdateUserProfile() {
+  const { user, setUser } = useUserStore()
+  const { mutate, isLoading } = useUpdateUserProfile()
   const methods = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -38,15 +42,26 @@ export default function useFormUpdateUserProfile() {
     },
     resolver: joiResolver(formSchema),
   })
-  const { mutate, isLoading } = useUpdateUserProfile()
 
   const handleSubmit = methods.handleSubmit(
     ({ email, password, ...values }) => {
-      mutate(values, {
-        onSuccess() {
-          toast.success("Cập nhật hồ sơ người dùng thành công")
-        },
-      })
+      if (
+        _.isEqual(
+          {
+            name: user?.name,
+            gender: user?.gender,
+          },
+          values
+        )
+      )
+        toast.error("Vui lòng nhập thông tin mới")
+      else
+        mutate(values, {
+          onSuccess({ data }) {
+            setUser(data)
+            toast.success("Cập nhật hồ sơ người dùng thành công")
+          },
+        })
     }
   )
 
